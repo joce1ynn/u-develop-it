@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2");
-const inputCheck = require('./utils/inputCheck');
-
+const inputCheck = require("./utils/inputCheck");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -64,7 +63,9 @@ app.delete("/api/candidate/:id", (req, res) => {
   db.query(sql, params, (err, result) => {
     if (err) {
       res.statusMessage(400).json({ error: res.message });
-    } else if (!result.affectedRows) {
+    }
+    // preventing the deletion of a candidate that doesn't exist.
+    else if (!result.affectedRows) {
       res.json({
         message: "Candidate not found",
       });
